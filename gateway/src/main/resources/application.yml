@@ -1,0 +1,28 @@
+server:
+  port: 9001
+
+spring:
+  cloud.gateway.routes:
+    - id: app1
+      uri: http://localhost:9002
+      predicates:
+        - Path=/api/v1/greet,/swagger-ui.html,/webjars/**,/v2/api-docs,/swagger-resources/**
+
+  security:
+    oauth2:
+      client:
+        registration:
+          login-client:
+            provider: uaa
+            client-id: 54198117-15c1-4b8c-a833-ed0b2092733e
+            client-secret: d48090d4-737f-4638-acdb-7866f5bdc0a4
+            authorization-grant-type: authorization_code
+            redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: openid
+        provider:
+          uaa:
+            authorization-uri: https://pal.login.run.pivotal.io/oauth/authorize
+            token-uri: https://pal.login.run.pivotal.io/oauth/token
+            user-info-uri: https://pal.login.run.pivotal.io/userinfo
+            user-name-attribute: sub
+            jwk-set-uri: https://pal.login.run.pivotal.io/token_keys
