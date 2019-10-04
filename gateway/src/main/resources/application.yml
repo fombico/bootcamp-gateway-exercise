@@ -7,6 +7,12 @@ spring:
       uri: http://localhost:9002
       predicates:
         - Path=/api/v1/greet,/swagger-ui.html,/webjars/**,/v2/api-docs,/swagger-resources/**
+    - id: app2-api
+      uri: http://localhost:9003
+      predicates:
+        - Path=/app2/api/v1/greet,/app2/swagger-ui.html,/app2/webjars/**,/app2/v2/api-docs,/app2/swagger-resources/**
+      filters:
+        - RewritePath=/app2/(?<segment>.*), /$\{segment}
 
   security:
     oauth2:
